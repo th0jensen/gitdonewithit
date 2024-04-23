@@ -19,9 +19,10 @@ fn main() {
 
         let commit_message = &args[2];
 
+        println!("");
         println!("Staging options:");
-        println!("1. All files (.)");
-        println!("2. Specific file");
+        println!("1. All files");
+        println!("2. Specify which files");
 
         let mut choice = String::new();
         print!("Enter your choice (1 or 2): ");
