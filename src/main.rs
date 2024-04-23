@@ -12,7 +12,7 @@ fn main() {
     }
 
     if args[1] == "cp" {
-        if args.len() < 4 {
+        if args.len() < 3 {
             eprintln!("Usage: {} cp 'commit_message'", args[0]);
             std::process::exit(1);
         }
@@ -52,7 +52,7 @@ fn main() {
             std::process::exit(1);
         }
 
-        if args.len() == 4 {
+        if args.len() == 3 {
             let url = &args[3];
             add_remote_origin(url);
         }
