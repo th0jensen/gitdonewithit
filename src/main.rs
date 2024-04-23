@@ -79,7 +79,7 @@ fn add_all_files() {
 }
 
 fn add_specific_file() {
-    print!("Enter the file name: ");
+    print!("Enter the file name(s): ");
     io::stdout().flush().unwrap();
     let mut file_name = String::new();
     io::stdin().read_line(&mut file_name).unwrap();
@@ -110,6 +110,8 @@ fn commit_changes(commit_message: &str) {
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
+    } else {
+        eprintln!("Successfully committed with message: '{}'", commit_message)
     }
 }
 
@@ -132,6 +134,8 @@ fn push_to_origin() {
                 String::from_utf8_lossy(&output.stderr)
             );
             std::process::exit(1);
+        } else {
+            eprintln!("Successfully pushed to remote! 🎉");
         }
     }
 }
