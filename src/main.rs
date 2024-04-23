@@ -6,12 +6,6 @@ mod actions;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    if args.len() < 2 {
-        eprintln!("Usage: gitdonewithit cp 'commit_message'");
-        eprintln!("-------------------- ar repository url");
-        std::process::exit(1);
-    }
-
     if args[1] == "cp" {
         if args.len() < 3 {
             eprintln!("Usage: {} cp 'commit_message'", args[0]);
