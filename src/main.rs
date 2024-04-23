@@ -19,7 +19,7 @@ fn main() {
 
         let commit_message = &args[2];
 
-        println!("Select an option:");
+        println!("Staging options:");
         println!("1. All files (.)");
         println!("2. Specific file");
 
@@ -75,6 +75,8 @@ fn add_all_files() {
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
+    } else {
+        eprintln!("Succuessfully added all files");
     }
 }
 
@@ -94,6 +96,8 @@ fn add_specific_file() {
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
+    } else {
+        eprintln!("Successfully added files: {}", &file_name);
     }
 }
 
@@ -137,6 +141,11 @@ fn push_to_origin() {
         } else {
             eprintln!("Successfully pushed to remote! 🎉");
         }
+    } else if push_choice.trim().to_lowercase() == "n" {
+        eprintln!("Not pushing to remote");
+    } else {
+        eprintln!("Invalid input");
+        push_to_origin();
     }
 }
 
@@ -154,6 +163,7 @@ fn add_remote_origin(url: &str) {
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
+    } else {
+        eprintln!("Remote origin added successfully.");
     }
-    println!("Remote origin added successfully.");
 }
