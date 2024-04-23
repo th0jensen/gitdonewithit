@@ -6,18 +6,18 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("Usage: gitdonewithit cp repository 'commit_message'");
+        eprintln!("Usage: gitdonewithit cp 'commit_message'");
         eprintln!("-------------------- ar repository url");
         std::process::exit(1);
     }
 
     if args[1] == "cp" {
         if args.len() < 4 {
-            eprintln!("Usage: {} cp repository 'commit_message'", args[0]);
+            eprintln!("Usage: {} cp 'commit_message'", args[0]);
             std::process::exit(1);
         }
 
-        let commit_message = &args[3];
+        let commit_message = &args[2];
 
         println!("Select an option:");
         println!("1. All files (.)");
@@ -57,7 +57,7 @@ fn main() {
             add_remote_origin(url);
         }
     } else {
-        eprintln!("Usage: gitdonewithit cp repository 'commit_message'");
+        eprintln!("Usage: gitdonewithit cp 'commit_message'");
         eprintln!("-------------------- ar repository url");
         std::process::exit(1);
     }
