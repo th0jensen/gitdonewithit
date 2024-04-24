@@ -2,6 +2,27 @@ use colored::*;
 use std::io::{self, Write};
 use std::process::Command;
 
+pub fn staging() {
+    println!("");
+    println!("Staging options:");
+    println!("1. All files");
+    println!("2. Specify which files");
+
+    let mut choice = String::new();
+    print!("Enter your choice (1 or 2): ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut choice).unwrap();
+
+    match choice.trim() {
+        "1" => add_all_files(),
+        "2" => add_specific_files(),
+        _ => {
+            eprintln!("{}", "Invalid choice".red());
+            staging();
+        }
+    }
+}
+
 pub fn add_all_files() {
     let output = Command::new("git")
         .arg("add")
@@ -19,27 +40,31 @@ pub fn add_all_files() {
     }
 }
 
-pub fn add_specific_file() {
-    print!("Enter the file name(s): ");
+pub fn add_specific_files() {
+    print!("Enter the file name(s) (separated by spaces): ");
     io::stdout().flush().unwrap();
-    let mut file_name = String::new();
-    io::stdin().read_line(&mut file_name).unwrap();
-    let output = Command::new("git")
-        .arg("add")
-        .arg(file_name.trim())
-        .output()
-        .expect("Failed to execute git add");
-    if !output.status.success() {
-        eprintln!(
-            "Error adding file: {}",
-            String::from_utf8_lossy(&output.stderr).red()
-        );
-        std::process::exit(1);
-    } else {
-        eprintln!(
-            "{}",
-            format!("Sucessfully added files: {}", &file_name).green()
-        );
+    let mut file_names = String::new();
+    io::stdin().read_line(&mut file_names).unwrap();
+    let file_name_list: Vec<&str> = file_names.trim().split_whitespace().collect();
+
+    for file_name in file_name_list {
+        let output = Command::new("git")
+            .arg("add")
+            .arg(file_name)
+            .output()
+            .expect("Failed to execute git add");
+        if !output.status.success() {
+            eprintln!(
+                "Error adding file: {}",
+                String::from_utf8_lossy(&output.stderr).red()
+            );
+            std::process::exit(1);
+        } else {
+            eprintln!(
+                "{}",
+                format!("Sucessfully added file: {}", file_name).green()
+            );
+        }
     }
 }
 
