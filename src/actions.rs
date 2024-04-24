@@ -1,3 +1,4 @@
+use colored::*;
 use std::io::{self, Write};
 use std::process::Command;
 
@@ -10,11 +11,11 @@ pub fn add_all_files() {
     if !output.status.success() {
         eprintln!(
             "Error adding files: {}",
-            String::from_utf8_lossy(&output.stderr)
+            String::from_utf8_lossy(&output.stderr).red()
         );
         std::process::exit(1);
     } else {
-        eprintln!("Succuessfully added all files");
+        eprintln!("{}", "Succuessfully added all files".green());
     }
 }
 
@@ -31,11 +32,14 @@ pub fn add_specific_file() {
     if !output.status.success() {
         eprintln!(
             "Error adding file: {}",
-            String::from_utf8_lossy(&output.stderr)
+            String::from_utf8_lossy(&output.stderr).red()
         );
         std::process::exit(1);
     } else {
-        eprintln!("Successfully added files: {}", &file_name);
+        eprintln!(
+            "{}",
+            format!("Sucessfully added files: {}", &file_name).green()
+        );
     }
 }
 
@@ -48,12 +52,15 @@ pub fn commit_changes(commit_message: &str) {
         .expect("Failed to execute git commit");
     if !output.status.success() {
         eprintln!(
-            "Error committing changes: {}",
-            String::from_utf8_lossy(&output.stderr)
+            "Error comitting changes: {}",
+            String::from_utf8_lossy(&output.stderr).red()
         );
         std::process::exit(1);
     } else {
-        eprintln!("Successfully committed with message: '{}'", commit_message)
+        eprintln!(
+            "{}",
+            format!("Successfully committed with message: '{}'", commit_message).green()
+        );
     }
 }
 
@@ -73,11 +80,11 @@ pub fn push_to_origin() {
         if !output.status.success() {
             eprintln!(
                 "Error pushing changes: {}",
-                String::from_utf8_lossy(&output.stderr)
+                String::from_utf8_lossy(&output.stderr).red()
             );
             std::process::exit(1);
         } else {
-            eprintln!("Successfully pushed to remote! 🎉");
+            eprintln!("{}", "Successfully pushed to remote! 🎉".green());
         }
     } else if push_choice.trim().to_lowercase() == "n" {
         eprintln!("Not pushing to remote");
@@ -98,10 +105,10 @@ pub fn add_remote_origin(url: &str) {
     if !output.status.success() {
         eprintln!(
             "Error adding remote origin: {}",
-            String::from_utf8_lossy(&output.stderr)
+            String::from_utf8_lossy(&output.stderr).red()
         );
         std::process::exit(1);
     } else {
-        eprintln!("Remote origin added successfully.");
+        eprintln!("{}", "Remote origin added successfully.".green());
     }
 }
