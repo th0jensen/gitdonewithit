@@ -2,6 +2,32 @@ use colored::*;
 use std::io::{self, Write};
 use std::process::Command;
 
+pub fn status() {
+    let output = Command::new("git")
+        .arg("status")
+        .output()
+        .expect("Failed to execute git status");
+    if !output.status.success() {
+        eprintln!("ERROR: {}", String::from_utf8_lossy(&output.stderr).red());
+        std::process::exit(1);
+    } else {
+        println!("{}", String::from_utf8_lossy(&output.stdout).green());
+    }
+}
+
+pub fn log() {
+    let output = Command::new("git")
+        .arg("log")
+        .output()
+        .expect("Failed to execute git log");
+    if !output.status.success() {
+        eprintln!("ERROR: {}", String::from_utf8_lossy(&output.stderr).red());
+        std::process::exit(1);
+    } else {
+        println!("{}", String::from_utf8_lossy(&output.stdout).green());
+    }
+}
+
 pub fn staging() {
     println!("");
     println!("Staging options:");
@@ -134,6 +160,25 @@ pub fn add_remote_origin(url: &str) {
         );
         std::process::exit(1);
     } else {
-        eprintln!("{}", "Remote origin added successfully.".green());
+        eprintln!("{}", "Remote origin added successfully. 🎉".green());
+    }
+}
+
+pub fn modify_remote_origin(url: &str) {
+    let output = Command::new("git")
+        .arg("remote")
+        .arg("set-url")
+        .arg("origin")
+        .arg(url)
+        .output()
+        .expect("Failed to execute git remote set-url origin");
+    if !output.status.success() {
+        eprintln!(
+            "Error adding remote origin: {}",
+            String::from_utf8_lossy(&output.stderr).red()
+        );
+        std::process::exit(1);
+    } else {
+        eprintln!("{}", "Remote origin changed successfully. 🎉".green());
     }
 }
