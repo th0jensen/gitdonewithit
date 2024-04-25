@@ -50,10 +50,8 @@ fn main() {
         actions::log()
     } else if args[1] == "help" {
         help::help_message()
-    } else if args[1] == "--version" {
-        println!("gitdonewithit (gii)");
-        println!("Made by th0jensen");
-        println!("Version: {}", env!("CARGO_PKG_VERSION"));
+    } else if args[1] == "version" {
+        version::version_message()
     } else {
         println!("{}", fallback_message.red());
         std::process::exit(1);
