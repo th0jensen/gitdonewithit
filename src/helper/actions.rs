@@ -28,7 +28,14 @@ pub fn log() {
     }
 }
 
-pub fn staging() {
+pub fn commit_push(args: &[String]) {
+    let commit_message = &args[0];
+    staging();
+    commit_changes(commit_message);
+    push_to_origin();
+}
+
+fn staging() {
     println!("");
     println!("Staging options:");
     println!("1. All files");
@@ -51,7 +58,7 @@ pub fn staging() {
     }
 }
 
-pub fn add_all_files() {
+fn add_all_files() {
     let output = Command::new("git")
         .arg("add")
         .arg(".")
@@ -68,7 +75,7 @@ pub fn add_all_files() {
     }
 }
 
-pub fn add_specific_files() {
+fn add_specific_files() {
     print!("Enter the file name(s) (separated by spaces): ");
     io::stdout().flush().unwrap();
     let mut file_names = String::new();
@@ -96,7 +103,7 @@ pub fn add_specific_files() {
     }
 }
 
-pub fn interactive_mode() {
+fn interactive_mode() {
     let status = Command::new("git")
         .arg("add")
         .arg("-i")
@@ -108,7 +115,7 @@ pub fn interactive_mode() {
     }
 }
 
-pub fn commit_changes(commit_message: &str) {
+fn commit_changes(commit_message: &str) {
     let output = Command::new("git")
         .arg("commit")
         .arg("-m")
@@ -129,7 +136,7 @@ pub fn commit_changes(commit_message: &str) {
     }
 }
 
-pub fn push_to_origin() {
+fn push_to_origin() {
     print!("Do you want to push to origin main? (y/n): ");
     io::stdout().flush().unwrap();
     let mut push_choice = String::new();
@@ -159,7 +166,8 @@ pub fn push_to_origin() {
     }
 }
 
-pub fn add_remote_origin(url: &str) {
+pub fn add_remote_origin(args: &[String]) {
+    let url = &args[2];
     let output = Command::new("git")
         .arg("remote")
         .arg("add")
@@ -178,7 +186,8 @@ pub fn add_remote_origin(url: &str) {
     }
 }
 
-pub fn modify_remote_origin(url: &str) {
+pub fn modify_remote_origin(args: &[String]) {
+    let url = &args[2];
     let output = Command::new("git")
         .arg("remote")
         .arg("set-url")
