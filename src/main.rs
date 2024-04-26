@@ -1,5 +1,5 @@
 use crate::helper::*;
-use colored::*;
+use ansi_term::Colour;
 use std::{env, process::ExitCode};
 
 mod helper;
@@ -8,8 +8,7 @@ fn main() -> ExitCode {
     let args: Vec<String> = env::args().collect();
 
     if args.len() == 1 {
-        eprintln!("{}", "ERROR: Invalid command".red());
-        println!("Check usage with gii --h");
+        help::help_message(&args[1..]);
         return ExitCode::FAILURE;
     } else {
         match &args[1][..] {
@@ -24,7 +23,8 @@ fn main() -> ExitCode {
             "help" | "--h" => help::help_message(&args[2..]),
             "version" | "--v" => version::version_message(),
             _ => {
-                eprintln!("{}", "ERROR: Check usage with gii --h".red());
+                eprintln!("{}", Colour::Red.paint("ERROR: Invalid command"));
+                println!("Check usage with gii help");
                 return ExitCode::FAILURE;
             }
         }
