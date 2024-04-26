@@ -33,15 +33,17 @@ pub fn staging() {
     println!("Staging options:");
     println!("1. All files");
     println!("2. Specify which files");
+    println!("3. Interactive mode");
 
     let mut choice = String::new();
-    print!("Enter your choice (1 or 2): ");
+    print!("Enter your choice (1/2/3): ");
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut choice).unwrap();
 
     match choice.trim() {
         "1" => add_all_files(),
         "2" => add_specific_files(),
+        "3" => interactive_mode(),
         _ => {
             eprintln!("{}", "Invalid choice".red());
             staging();
@@ -91,6 +93,18 @@ pub fn add_specific_files() {
                 format!("Sucessfully added file: {}", file_name).green()
             );
         }
+    }
+}
+
+pub fn interactive_mode() {
+    let status = Command::new("git")
+        .arg("add")
+        .arg("-i")
+        .status()
+        .expect("Failed to execute git add -i");
+    if !status.success() {
+        eprintln!("Error adding files: {}", status.to_string().red());
+        std::process::exit(1);
     }
 }
 
