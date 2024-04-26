@@ -279,6 +279,6 @@ pub fn log() {
         eprintln!("ERROR: {}", String::from_utf8_lossy(&output.stderr).red());
         std::process::exit(1);
     } else {
-        println!("{}", String::from_utf8_lossy(&output.stdout).green());
+        println!("{}", String::from_utf8_lossy(&output.stdout).yellow());
     }
 }
