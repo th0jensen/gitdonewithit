@@ -3,53 +3,72 @@ struct Command {
     arguments: &'static str,
     desc: &'static str,
 }
-
-pub fn help_message() {
+pub fn help_message(args: &[String]) {
     let commands = [
         Command {
-            name: "cp",
+            name: "cp, --commit-push",
             arguments: "[\"commit message\"]",
             desc: "commits files and pushes to remote.",
         },
         Command {
-            name: "ar",
+            name: "ar, --add-remote",
             arguments: "[url]",
             desc: "adds a remote repository to the repo.",
         },
         Command {
-            name: "mr",
+            name: "mr, --modify-remote",
             arguments: "[url]",
             desc: "changes the remote url of the repo.",
         },
         Command {
-            name: "status",
+            name: "status, --s",
             arguments: "",
             desc: "prints the status of the current repo.",
         },
         Command {
-            name: "log",
+            name: "log, --l",
             arguments: "",
             desc: "prints the commit log of the current repo.",
         },
         Command {
-            name: "help",
+            name: "help, --h",
             arguments: "",
             desc: "prints this screen",
         },
         Command {
-            name: "version",
+            name: "version, --v",
             arguments: "",
             desc: "displays the current version",
         },
     ];
 
+    if args.is_empty() {
+        default_text();
+        for command in commands.iter() {
+            println!(
+                "    {} {} => {}",
+                command.name, command.arguments, command.desc
+            );
+            println!("");
+        }
+        println!("    ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+        println!("    Use gii --h <command> for more info on that specific command.");
+    } else {
+        default_text();
+        for command in commands.iter() {
+            if command.name.contains(&args[0]) {
+                println!(
+                    "    {} {} => {}",
+                    command.name, command.arguments, command.desc
+                );
+                println!("");
+            }
+        }
+    }
+}
+
+fn default_text() {
     println!(" ");
     println!("    gii <command> <arguments>");
-    println!("    ....................................");
-
-    for command in commands.iter() {
-        println!("    {} {}", command.name, command.arguments);
-        println!("    {}", command.desc);
-        println!("    ....................................");
-    }
+    println!("    ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
 }
