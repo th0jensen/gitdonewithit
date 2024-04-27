@@ -31,5 +31,5 @@ cargo build --release && cargo install --path .
 Run the program and suffer:
 
 ```{
-gii --help
+gii help
 ```
