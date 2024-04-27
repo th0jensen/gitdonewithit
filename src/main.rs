@@ -1,33 +1,42 @@
-use crate::helper::*;
+use crate::helper::actions::*;
+use crate::helper::help::*;
+use crate::helper::version::*;
 use ansi_term::Colour;
-use std::{env, process::ExitCode};
+use crossterm::{cursor, execute, terminal};
+use std::env;
+use std::io::Result;
 
 mod helper;
 
-fn main() -> ExitCode {
+fn main() -> Result<()> {
+    execute!(
+        std::io::stdout(),
+        terminal::Clear(terminal::ClearType::All),
+        cursor::MoveTo(0, 0)
+    )?;
+
     let args: Vec<String> = env::args().collect();
 
     if args.len() == 1 {
-        help::help_message(&args[1..]);
-        return ExitCode::FAILURE;
+        help_message(&args[1..]);
     } else {
         match &args[1][..] {
-            "cp" | "--commit-push" => actions::commit_push(&args[2..]),
-            "ar" | "--add-remote" => actions::add_remote_origin(&args[2..]),
-            "mr" | "--modify-remote" => actions::modify_remote_origin(&args[2..]),
-            "push" | "--p" => actions::push(),
-            "pull" | "--pl" => actions::pull(),
-            "fetch" | "--f" => actions::fetch(),
-            "status" | "--s" => actions::status(),
-            "log" | "--l" => actions::log(),
-            "help" | "--h" => help::help_message(&args[2..]),
-            "version" | "--v" => version::version_message(),
+            "cp" | "--commit-push" => commit_push(&args[2..]),
+            "ar" | "--add-remote" => add_remote_origin(&args[2..]),
+            "mr" | "--modify-remote" => modify_remote_origin(&args[2..]),
+            "push" | "--p" => push(),
+            "pull" | "--pl" => pull(),
+            "fetch" | "--f" => fetch(),
+            "status" | "--s" => status(),
+            "log" | "--l" => log(),
+            "help" | "--h" => help_message(&args[2..]),
+            "version" | "--v" => version_message(),
             _ => {
                 eprintln!("{}", Colour::Red.paint("ERROR: Invalid command"));
                 println!("Check usage with gii help");
-                return ExitCode::FAILURE;
             }
         }
     }
-    ExitCode::SUCCESS
+
+    Ok(())
 }
