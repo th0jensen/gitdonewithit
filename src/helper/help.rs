@@ -1,4 +1,5 @@
-use ansi_term::{Colour, Style};
+use ansi_term::Color::Red;
+use ansi_term::Style;
 
 struct Command {
     name: &'static str,
@@ -110,7 +111,7 @@ pub fn help_message(args: &[String]) {
                 || command.arguments.contains(&args[0])
                 || command.desc.contains(&args[0])
         }) {
-            eprintln!("{}", Colour::Red.paint("ERROR: Invalid command"));
+            eprintln!("{}", Red.paint("ERROR: Invalid command"));
             println!("Make sure to enter a valid command.");
             println!("Check <gii help> for usage");
         } else {

@@ -1,10 +1,11 @@
-use ansi_term::{Colour, Style};
+use ansi_term::Colour::{Green, Red, Yellow};
+use ansi_term::Style;
 use std::io::{self, Write};
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 pub fn commit_push(args: &[String]) {
     if args.is_empty() {
-        eprintln!("{}", Colour::Red.paint("ERROR: Invalid command"));
+        eprintln!("{}", Red.paint("ERROR: Invalid command"));
         println!("Check usage with gii help cp");
     } else {
         let commit_message = &args[0];
@@ -37,7 +38,7 @@ fn staging() {
         "2" => add_specific_files(),
         "3" => interactive_mode(),
         _ => {
-            eprintln!("{}", Colour::Red.paint("ERROR: Invalid choice"));
+            eprintln!("{}", Red.paint("ERROR: Invalid choice"));
             println!("Trying again...");
             staging();
         }
@@ -53,12 +54,12 @@ fn add_all_files() {
     if !output.status.success() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Failed adding files: "),
+            Red.paint("ERROR: Failed adding files: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
-        println!("{}", Colour::Green.paint("Successfully added all files"),);
+        println!("{}", Green.paint("Successfully added all files"),);
     }
 }
 
@@ -84,16 +85,12 @@ fn add_specific_files() {
         if !output.status.success() {
             eprintln!(
                 "{} {}",
-                Colour::Red.paint("ERROR: Failed adding file(s): "),
+                Red.paint("ERROR: Failed adding file(s): "),
                 String::from_utf8_lossy(&output.stderr)
             );
             std::process::exit(1);
         } else {
-            println!(
-                "{} {}",
-                Colour::Green.paint("Successfully added file: "),
-                file_name
-            );
+            println!("{} {}", Green.paint("Successfully added file: "), file_name);
         }
     }
 }
@@ -107,12 +104,12 @@ fn interactive_mode() {
     if !status.success() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Failed adding files: "),
+            Red.paint("ERROR: Failed adding files: "),
             status.to_string()
         );
         std::process::exit(1);
     } else {
-        println!("{}", Colour::Green.paint("Successfully added files"),);
+        println!("{}", Green.paint("Successfully added files"),);
     }
 }
 
@@ -126,14 +123,14 @@ fn commit_changes(commit_message: &str) {
     if !output.status.success() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Failed committing changes: "),
+            Red.paint("ERROR: Failed committing changes: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
         println!(
             "{} {}",
-            Colour::Green.paint("Successfully committed with message: "),
+            Green.paint("Successfully committed with message: "),
             commit_message
         );
     }
@@ -161,15 +158,12 @@ fn push_to_origin() {
         if !output.status.success() {
             eprintln!(
                 "{} {}",
-                Colour::Red.paint("ERROR: Failed pushing changes: "),
+                Red.paint("ERROR: Failed pushing changes: "),
                 String::from_utf8_lossy(&output.stderr)
             );
             std::process::exit(1);
         } else {
-            println!(
-                "{}",
-                Colour::Green.paint("Successfully pushed to remote! 🎉")
-            );
+            println!("{}", Green.paint("Successfully pushed to remote! 🎉"));
         }
     } else if push_choice.trim().to_lowercase() == "n" {
         println!("Not pushing to remote");
@@ -177,7 +171,7 @@ fn push_to_origin() {
     } else {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Invalid input"),
+            Red.paint("ERROR: Invalid input"),
             "Trying again..."
         );
         push_to_origin();
@@ -188,7 +182,7 @@ pub fn add_remote_origin(args: &[String]) {
     if args.is_empty() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Invalid command"),
+            Red.paint("ERROR: Invalid command"),
             "Check usage with gii help ar"
         );
     } else {
@@ -203,15 +197,12 @@ pub fn add_remote_origin(args: &[String]) {
         if !output.status.success() {
             eprintln!(
                 "{} {}",
-                Colour::Red.paint("ERROR: Failed adding remote origin: "),
+                Red.paint("ERROR: Failed adding remote origin: "),
                 String::from_utf8_lossy(&output.stderr)
             );
             std::process::exit(1);
         } else {
-            println!(
-                "{}",
-                Colour::Green.paint("Remote origin added successfully! 🎉")
-            );
+            println!("{}", Green.paint("Remote origin added successfully! 🎉"));
         }
     }
 }
@@ -220,7 +211,7 @@ pub fn modify_remote_origin(args: &[String]) {
     if args.is_empty() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Invalid command: "),
+            Red.paint("ERROR: Invalid command: "),
             "Check usage with gii help mr"
         );
     } else {
@@ -235,15 +226,12 @@ pub fn modify_remote_origin(args: &[String]) {
         if !output.status.success() {
             eprintln!(
                 "{} {}",
-                Colour::Red.paint("ERROR: Failed adding remote origin: "),
+                Red.paint("ERROR: Failed adding remote origin: "),
                 String::from_utf8_lossy(&output.stderr)
             );
             std::process::exit(1);
         } else {
-            println!(
-                "{}",
-                Colour::Green.paint("Remote origin changed successfully! 🎉")
-            );
+            println!("{}", Green.paint("Remote origin changed successfully! 🎉"));
         }
     }
 }
@@ -258,15 +246,12 @@ pub fn push() {
     if !output.status.success() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Pushing changes: "),
+            Red.paint("ERROR: Pushing changes: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
-        println!(
-            "{}",
-            Colour::Green.paint("Successfully pushed to remote! 🎉")
-        );
+        println!("{}", Green.paint("Successfully pushed to remote! 🎉"));
     }
 }
 
@@ -280,15 +265,12 @@ pub fn pull() {
     if !output.status.success() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Failed pulling changes: "),
+            Red.paint("ERROR: Failed pulling changes: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
-        println!(
-            "{}",
-            Colour::Green.paint("Succesfully pulled origin/main 🎉")
-        );
+        println!("{}", Green.paint("Succesfully pulled origin/main 🎉"));
     }
 }
 
@@ -300,15 +282,12 @@ pub fn fetch() {
     if !output.status.success() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Failed fetching remote: "),
+            Red.paint("ERROR: Failed fetching remote: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
-        println!(
-            "{}",
-            Colour::Green.paint("Successfully fetched origin/main 🎉")
-        );
+        println!("{}", Green.paint("Successfully fetched origin/main 🎉"));
     }
 }
 
@@ -320,15 +299,12 @@ pub fn status() {
     if !output.status.success() {
         eprintln!(
             "{} {}",
-            Colour::Red.paint("ERROR: Failed to check repo status: "),
+            Red.paint("ERROR: Failed to check repo status: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
-        println!(
-            "{}",
-            Colour::Yellow.paint(String::from_utf8_lossy(&output.stdout))
-        );
+        println!("{}", Yellow.paint(String::from_utf8_lossy(&output.stdout)));
     }
 }
 
@@ -337,17 +313,35 @@ pub fn log() {
         .arg("log")
         .output()
         .expect("Failed to execute git log");
+
     if !output.status.success() {
         println!(
             "{} {}",
-            Colour::Red.paint("ERROR: Failed to fetch log: "),
+            Red.paint("ERROR: Failed to fetch log: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
-        println!(
-            "{}",
-            Colour::Yellow.paint(String::from_utf8_lossy(&output.stdout))
-        );
+        let mut child = Command::new("vim")
+            .arg("-T")
+            .arg("dumb")
+            .arg("-")
+            .stdin(Stdio::piped())
+            .spawn()
+            .expect("Failed to launch Vim");
+
+        child
+            .stdin
+            .as_mut()
+            .expect("Failed to get Vim's stdin")
+            .write_all(&output.stdout)
+            .expect("Failed to write to Vim's stdin");
+
+        let output = child.wait_with_output().expect("Failed to wait for Vim");
+        if output.status.success() {
+            println!("");
+        } else {
+            println!("");
+        }
     }
 }
