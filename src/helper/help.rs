@@ -74,16 +74,23 @@ pub fn help_message(args: &[String]) {
         default_text();
         for command in commands.iter() {
             println!(
-                "    {}, {} {} => {}",
+                "    {}, {} {} {} {}",
                 Style::new().bold().paint(command.name),
                 Style::new().bold().paint(command.long_name),
                 command.arguments,
-                command.desc
+                Style::new().bold().paint("=>"),
+                Style::new().italic().paint(command.desc)
             );
 
             println!("");
         }
-        println!("    ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+
+        println!(
+            "{}",
+            Style::new()
+                .underline()
+                .paint("                             ")
+        );
         println!(
             "{}",
             Style::new()
@@ -115,8 +122,12 @@ pub fn help_message(args: &[String]) {
                     | command.desc.contains(&args[0])
                 {
                     println!(
-                        "    {}, {} {} => {}",
-                        command.name, command.long_name, command.arguments, command.desc
+                        "    {}, {} {} {} {}",
+                        Style::new().bold().paint(command.name),
+                        Style::new().bold().paint(command.long_name),
+                        command.arguments,
+                        Style::new().bold().paint("=>"),
+                        Style::new().italic().paint(command.desc)
                     );
                     println!("");
                 }
@@ -127,6 +138,11 @@ pub fn help_message(args: &[String]) {
 
 fn default_text() {
     println!(" ");
-    println!("    gii <command> <arguments>");
-    println!("    ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+    println!(
+        "{}",
+        Style::new()
+            .underline()
+            .paint("    gii <command> <arguments>")
+    );
+    println!(" ");
 }

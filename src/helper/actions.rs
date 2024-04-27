@@ -1,4 +1,4 @@
-use ansi_term::Colour;
+use ansi_term::{Colour, Style};
 use std::io::{self, Write};
 use std::process::Command;
 
@@ -16,14 +16,19 @@ pub fn commit_push(args: &[String]) {
 
 fn staging() {
     println!("");
-    println!("Staging options:");
-    println!("┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+    println!("{}", Style::new().underline().paint("Staging options: "));
     println!("1. All files");
     println!("2. Specify which files");
     println!("3. Interactive mode");
 
     let mut choice = String::new();
-    print!("Enter your choice ( 1 / 2 / 3 ): ");
+    println!("");
+    print!(
+        "{}",
+        Style::new()
+            .underline()
+            .paint("Enter your choice ( 1 / 2 / 3 ): ")
+    );
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut choice).unwrap();
 
@@ -58,7 +63,13 @@ fn add_all_files() {
 }
 
 fn add_specific_files() {
-    print!("Enter the file path(s) (separated by spaces): ");
+    println!("");
+    println!(
+        "{}",
+        Style::new()
+            .underline()
+            .paint("Enter the file path(s) (separated by spaces): ")
+    );
     io::stdout().flush().unwrap();
     let mut file_names = String::new();
     io::stdin().read_line(&mut file_names).unwrap();
@@ -129,7 +140,12 @@ fn commit_changes(commit_message: &str) {
 }
 
 fn push_to_origin() {
-    print!("Do you want to push to origin main? (y/n): ");
+    print!(
+        "{}",
+        Style::new()
+            .underline()
+            .paint("Do you want to push to origin main? (y/n): ")
+    );
     io::stdout().flush().unwrap();
     let mut push_choice = String::new();
     io::stdin().read_line(&mut push_choice).unwrap();
@@ -247,7 +263,10 @@ pub fn push() {
         );
         std::process::exit(1);
     } else {
-        println!("{}", Colour::Red.paint("Successfully pushed to remote! 🎉"));
+        println!(
+            "{}",
+            Colour::Green.paint("Successfully pushed to remote! 🎉")
+        );
     }
 }
 
