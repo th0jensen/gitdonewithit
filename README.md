@@ -7,7 +7,7 @@ A simplistic tool for using git
 Clone the repo.
 
 ```{
-git clone https://github.com/th0jensen/guessing_game.git && cd guessing_game
+git clone https://github.com/th0jensen/gitdonewithit.git && cd gitdonewithit
 ```
 
 Make sure you have Rust installed
