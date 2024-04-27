@@ -16,7 +16,7 @@ pub fn commit_push(args: &[String]) {
 
 fn staging() {
     println!("");
-    println!("{}", Style::new().underline().paint("Staging options: "));
+    println!("{}", Style::new().underline().paint("Staging options:"));
     println!("1. All files");
     println!("2. Specify which files");
     println!("3. Interactive mode");
@@ -24,10 +24,10 @@ fn staging() {
     let mut choice = String::new();
     println!("");
     print!(
-        "{}",
+        "{} ",
         Style::new()
             .underline()
-            .paint("Enter your choice ( 1 / 2 / 3 ): ")
+            .paint("Enter your choice ( 1 / 2 / 3 ):")
     );
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut choice).unwrap();
@@ -65,10 +65,10 @@ fn add_all_files() {
 fn add_specific_files() {
     println!("");
     println!(
-        "{}",
+        "{} ",
         Style::new()
             .underline()
-            .paint("Enter the file path(s) (separated by spaces): ")
+            .paint("Enter the file path(s) (separated by spaces):")
     );
     io::stdout().flush().unwrap();
     let mut file_names = String::new();
@@ -140,11 +140,12 @@ fn commit_changes(commit_message: &str) {
 }
 
 fn push_to_origin() {
+    println!("");
     print!(
-        "{}",
+        "{} ",
         Style::new()
             .underline()
-            .paint("Do you want to push to origin main? (y/n): ")
+            .paint("Do you want to push to origin main? (y/n):")
     );
     io::stdout().flush().unwrap();
     let mut push_choice = String::new();
@@ -166,9 +167,8 @@ fn push_to_origin() {
             std::process::exit(1);
         } else {
             println!(
-                "{} {}",
-                Colour::Green.paint("Successfully pushed to remote! 🎉"),
-                String::from_utf8_lossy(&output.stderr)
+                "{}",
+                Colour::Green.paint("Successfully pushed to remote! 🎉")
             );
         }
     } else if push_choice.trim().to_lowercase() == "n" {
