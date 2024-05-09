@@ -17,7 +17,7 @@ pub fn commit_push(args: &[String]) {
 
 fn staging() {
     println!("");
-    println!("{}", Style::new().underline().paint("Staging options:"));
+    println!("{}:", Style::new().underline().paint("Staging options"));
     println!("1. All files");
     println!("2. Specify which files");
     println!("3. Interactive mode");
@@ -25,10 +25,10 @@ fn staging() {
     let mut choice = String::new();
     println!("");
     print!(
-        "{} ",
+        "{}: ",
         Style::new()
             .underline()
-            .paint("Enter your choice ( 1 / 2 / 3 ):")
+            .paint("Enter your choice ( 1 / 2 / 3 )")
     );
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut choice).unwrap();
@@ -53,8 +53,8 @@ fn add_all_files() {
         .expect("Failed to execute git add .");
     if !output.status.success() {
         eprintln!(
-            "{} {}",
-            Red.paint("ERROR: Failed adding files: "),
+            "{}: {}",
+            Red.paint("ERROR: Failed adding files"),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
@@ -66,10 +66,10 @@ fn add_all_files() {
 fn add_specific_files() {
     println!("");
     println!(
-        "{} ",
+        "{}: ",
         Style::new()
             .underline()
-            .paint("Enter the file path(s) (separated by spaces):")
+            .paint("Enter the file path(s) (separated by spaces)")
     );
     io::stdout().flush().unwrap();
     let mut file_names = String::new();
@@ -139,10 +139,10 @@ fn commit_changes(commit_message: &str) {
 fn push_to_origin() {
     println!("");
     print!(
-        "{} ",
+        "{}: ",
         Style::new()
             .underline()
-            .paint("Do you want to push to origin main? (y/n):")
+            .paint("Do you want to push to origin main? (y/n)")
     );
     io::stdout().flush().unwrap();
     let mut push_choice = String::new();
@@ -186,7 +186,7 @@ pub fn add_remote_origin(args: &[String]) {
             "Check usage with gii help ar"
         );
     } else {
-        let url = &args[2];
+        let url = &args[0];
         let output = Command::new("git")
             .arg("remote")
             .arg("add")
@@ -215,7 +215,7 @@ pub fn modify_remote_origin(args: &[String]) {
             "Check usage with gii help mr"
         );
     } else {
-        let url = &args[2];
+        let url = &args[0];
         let output = Command::new("git")
             .arg("remote")
             .arg("set-url")
@@ -322,10 +322,7 @@ pub fn log() {
         );
         std::process::exit(1);
     } else {
-        let mut child = Command::new("vim")
-            .arg("-T")
-            .arg("dumb")
-            .arg("-")
+        let mut child = Command::new("nvim")
             .stdin(Stdio::piped())
             .spawn()
             .expect("Failed to launch Vim");
@@ -341,7 +338,7 @@ pub fn log() {
         if output.status.success() {
             println!("");
         } else {
-            println!("");
+            println!("Failed to launch neovim");
         }
     }
 }
