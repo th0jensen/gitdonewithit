@@ -28,16 +28,22 @@ pub fn help_message(args: &[String]) {
             desc: "changes the remote url of the repo",
         },
         Command {
-            name: "push",
-            long_name: "--p",
+            name: "pr",
+            long_name: "--pull-rebase",
             arguments: "",
-            desc: "pushes changes to origin/main",
+            desc: "pulls changes and rebases origin/main",
         },
         Command {
             name: "pull",
             long_name: "--pl",
             arguments: "",
             desc: "pulls changes from origin/main",
+        },
+        Command {
+            name: "push",
+            long_name: "--p",
+            arguments: "",
+            desc: "pushes changes to origin/main",
         },
         Command {
             name: "fetch",
