@@ -236,22 +236,28 @@ pub fn modify_remote_origin(args: &[String]) {
     }
 }
 
-pub fn push() {
+pub fn pull_rebase() {
     let output = Command::new("git")
-        .arg("push")
+        .arg("pull")
         .arg("origin")
         .arg("main")
+        .arg("--rebase")
         .output()
-        .expect("Failed to execute git push");
+        .expect("Failed to execute git pull --rebase");
     if !output.status.success() {
         eprintln!(
             "{} {}",
-            Red.paint("ERROR: Pushing changes: "),
+            Red.paint("ERROR: Failed pulling changes and rebasing: "),
             String::from_utf8_lossy(&output.stderr)
         );
         std::process::exit(1);
     } else {
-        println!("{}", Green.paint("Successfully pushed to remote! 🎉"));
+        println!(
+            "{}",
+            Green.paint(
+                "Succesfully pulled origin/main and rebased, your working tree is clean! 🎉"
+            )
+        );
     }
 }
 
@@ -271,6 +277,25 @@ pub fn pull() {
         std::process::exit(1);
     } else {
         println!("{}", Green.paint("Succesfully pulled origin/main 🎉"));
+    }
+}
+
+pub fn push() {
+    let output = Command::new("git")
+        .arg("push")
+        .arg("origin")
+        .arg("main")
+        .output()
+        .expect("Failed to execute git push");
+    if !output.status.success() {
+        eprintln!(
+            "{} {}",
+            Red.paint("ERROR: Pushing changes: "),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        std::process::exit(1);
+    } else {
+        println!("{}", Green.paint("Successfully pushed to remote! 🎉"));
     }
 }
 
