@@ -2,6 +2,13 @@
 
 A simplistic tool for using git
 
+## Dependencies
+
+The program works mostly without any external dependencies, except
+from [Git](https://github.com/git/git) of course, but the gii log
+command requires an installation of
+[neovim](https://github.com/neovim/neovim) present.
+
 ## Installation Method
 
 Clone the repo.
