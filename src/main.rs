@@ -5,6 +5,7 @@ use ansi_term::Colour::Red;
 use crossterm::{cursor, execute, terminal};
 use std::env::args;
 use std::io::Result;
+use std::process::exit;
 
 mod helper;
 
@@ -18,24 +19,26 @@ fn main() -> Result<()> {
     let args: Vec<String> = args().collect();
 
     if args.len() == 1 {
-        help_message(&args[1..]);
-    } else {
-        match &args[1][..] {
-            "cp" | "--commit-push" => commit_push(&args[2..]),
-            "ar" | "--add-remote" => add_remote_origin(&args[2..]),
-            "mr" | "--modify-remote" => modify_remote_origin(&args[2..]),
-            "pr" | "--pull-rebase" => pull_rebase(),
-            "pull" | "--pl" => pull(),
-            "push" | "--p" => push(),
-            "fetch" | "--f" => fetch(),
-            "status" | "--s" => status(),
-            "log" | "--l" => log(),
-            "help" | "--h" => help_message(&args[2..]),
-            "version" | "--v" => version_message(),
-            _ => {
-                eprintln!("{}", Red.paint("ERROR: Invalid command"));
-                println!("Check usage with gii help");
-            }
+        eprintln!("{}", Red.paint("ERROR: Invalid command"));
+        println!("Check usage with gii help");
+        exit(0)
+    }
+
+    match &args[1][..] {
+        "cp" | "--commit-push" => commit_push(&args[2..]),
+        "ar" | "--add-remote" => add_remote_origin(&args[2..]),
+        "mr" | "--modify-remote" => modify_remote_origin(&args[2..]),
+        "pr" | "--pull-rebase" => pull_rebase(),
+        "pull" | "--pl" => pull(),
+        "push" | "--p" => push(),
+        "fetch" | "--f" => fetch(),
+        "status" | "--s" => status(),
+        "log" | "--l" => log(),
+        "help" | "--h" => help_message(&args[2..]),
+        "version" | "--v" => version_message(),
+        _ => {
+            eprintln!("{}", Red.paint("ERROR: Invalid command"));
+            println!("Check usage with gii help");
         }
     }
 

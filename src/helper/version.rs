@@ -8,7 +8,6 @@ pub fn version_message() {
         Style::new().underline().bold().paint(" "),
         Style::new().underline().paint("(gii)")
     );
-    println!("{}", Style::new().italic().paint("Made by th0jensen"));
     println!(
         "Version: {}",
         Style::new()
@@ -16,4 +15,5 @@ pub fn version_message() {
             .italic()
             .paint(env!("CARGO_PKG_VERSION"))
     );
+    println!("{}", Style::new().italic().paint("(c) th0jensen"));
 }

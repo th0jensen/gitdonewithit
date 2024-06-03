@@ -7,6 +7,7 @@ struct Command {
     arguments: &'static str,
     desc: &'static str,
 }
+
 pub fn help_message(args: &[String]) {
     let commands = [
         Command {
